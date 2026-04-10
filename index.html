@@ -202,7 +202,7 @@
       margin-bottom: 0.75rem;
     }
     .q-text {
-      font-size: 1.08rem;
+      font-size: 1.25rem;
       font-weight: 600;
       color: var(--dark);
       line-height: 1.55;
@@ -210,7 +210,7 @@
       flex-shrink: 0;
     }
     .q-desc {
-      font-size: 0.85rem;
+      font-size: 1rem;
       color: #6a5040;
       font-style: italic;
       line-height: 1.65;
@@ -226,6 +226,17 @@
       gap: 0.75rem;
       margin-top: 1.2rem;
     }
+	.btn-back {
+		background-color: #c8860a;
+		color: #ffffff;
+		border-color: #04AA6D;
+		font-size: 18px;
+		font-family: 'Source Sans Pro', sans-serif;
+		padding-left: 19px;
+		padding-right: 19px;
+		border: 1px solid #cccccc;
+		border-radius: 5px;
+	}
     .btn-ans {
       padding: 1.05rem 0;
       border: 1.5px solid var(--brown-pale);
@@ -322,10 +333,6 @@
     <p>Al principio estábamos poco dispuestos a admitir que nunca podríamos beber sin peligro. Pero los miembros experimentados de A.A. nos explicaron que sufríamos de una enfermedad. (¡Así nos había parecido durante largos años!).</p>
     <p>Nos enteramos de que mucha gente estaba afligida por los mismos sentimientos de culpabilidad, soledad y desesperación que nosotros teníamos. Descubrimos que teníamos esos sentimientos porque padecíamos de la enfermedad del alcoholismo.</p>
     <p>Tomamos la decisión de tratar de hacer frente a la realidad de los efectos del alcohol en nuestras vidas.</p>
-    <div class="intro-highlight">
-      Si respondió <strong>SÍ a cuatro o más preguntas</strong>, lo tomamos como indicación de que teníamos un grave problema con la bebida.<br>
-      <span style="font-size:0.88rem;display:block;margin-top:0.3rem;">Pruébelo usted. Recuerde, no es una vergüenza enfrentarse al hecho de que se tiene un problema.</span>
-    </div>
   </div>
 
   <button class="btn-start" onclick="startQuiz()">Comenzar — 12 preguntas</button>
@@ -338,8 +345,7 @@
 
   <div class="q-topbar">
     <button class="btn-back hidden" id="btn-back" onclick="goBack()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      Anterior
+      &lt; Anterior
     </button>
     <div class="q-counter" id="q-counter">1 / 12</div>
     <div style="min-width:72px"></div>
