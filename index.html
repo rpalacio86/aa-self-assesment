@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>¿Es A.A. para usted? — Autoexamen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --warm-white: #faf7f2;
+      --dark: #1a1612;
+      --brown: #6b4c2a;
+      --brown-light: #a07850;
+      --brown-pale: #e8ddd0;
+      --amber: #c8860a;
+      --amber-light: #f0c060;
+      --red-soft: #c0392b;
+      --green-soft: #2e7d52;
+      --shadow: rgba(26,22,18,0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--dark);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 300;
+      line-height: 1.75;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse at 20% 10%, rgba(200,134,10,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 90%, rgba(107,76,42,0.08) 0%, transparent 55%);
+    }
+
+    /* ── HEADER ── */
+    header {
+      text-align: center;
+      padding: 3rem 1.5rem 2rem;
+      position: relative;
+    }
+
+    .logo-line {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.8rem, 10vw, 5rem);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      color: var(--brown);
+      line-height: 1;
+    }
+
+    .tagline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(1rem, 4vw, 1.35rem);
+      color: var(--brown-light);
+      margin-top: 0.5rem;
+      letter-spacing: 0.04em;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem auto;
+      max-width: 340px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--brown-light), transparent);
+    }
+    .divider-diamond {
+      width: 8px; height: 8px;
+      background: var(--amber);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--warm-white);
+      border: 1px solid var(--brown-pale);
+      border-radius: 4px;
+      box-shadow: 0 2px 18px var(--shadow), 0 0 0 1px rgba(200,134,10,0.06);
+      max-width: 680px;
+      margin: 0 auto 1.5rem;
+      padding: 1.8rem 1.5rem;
+      position: relative;
+    }
+
+    /* ── PRIVACY CARD ── */
+    .privacy-card {
+      background: linear-gradient(135deg, #f0ebe0, #e8ddd0);
+      border-left: 4px solid var(--amber);
+      padding: 1.4rem 1.5rem;
+    }
+
+    .privacy-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--brown);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .privacy-title svg {
+      flex-shrink: 0;
+    }
+
+    .privacy-text {
+      font-size: 0.88rem;
+      color: #4a3a28;
+      line-height: 1.65;
+    }
+
+    /* ── INTRO ── */
+    .intro-card { }
+    .intro-card p {
+      margin-bottom: 0.9rem;
+      font-size: 0.97rem;
+    }
+    .intro-card p:last-child { margin-bottom: 0; }
+
+    .intro-highlight {
+      background: linear-gradient(to right, rgba(200,134,10,0.12), transparent);
+      border-left: 3px solid var(--amber);
+      padding: 0.75rem 1rem;
+      margin: 1.1rem 0;
+      font-style: italic;
+      font-size: 0.95rem;
+      border-radius: 0 3px 3px 0;
+    }
+
+    /* ── QUESTIONS ── */
+    .questions-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--brown);
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .question-item {
+      background: var(--warm-white);
+      border: 1px solid var(--brown-pale);
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: box-shadow 0.25s ease;
+    }
+
+    .question-item.answered-si,
+    .question-item.answered-no { border-color: rgba(200,134,10,0.4); box-shadow: 0 0 0 2px rgba(200,134,10,0.08); }
+
+    .question-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      padding: 1rem 1.2rem 0.7rem;
+    }
+
+    .question-number {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--brown-pale);
+      line-height: 1;
+      min-width: 2rem;
+      text-align: right;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .question-item.answered-si .question-number,
+    .question-item.answered-no .question-number { color: rgba(200,134,10,0.35); }
+
+    .question-text {
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: var(--dark);
+      flex: 1;
+      line-height: 1.5;
+    }
+
+    .question-desc {
+      font-size: 0.85rem;
+      color: #5a4a38;
+      padding: 0 1.2rem 0.9rem 3.8rem;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* ── YES/NO BUTTONS ── */
+    .answer-row {
+      display: flex;
+      gap: 0.6rem;
+      padding: 0 1.2rem 1rem 3.8rem;
+    }
+
+    .btn-answer {
+      flex: 1;
+      padding: 0.55rem 0;
+      border: 1.5px solid var(--brown-pale);
+      border-radius: 3px;
+      background: transparent;
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      color: var(--brown-light);
+      transition: all 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-answer:hover {
+      background: var(--brown-pale);
+      color: var(--brown);
+    }
+
+    .btn-answer.selected-si,
+    .btn-answer.selected-no {
+      background: var(--brown);
+      border-color: var(--brown);
+      color: var(--cream);
+    }
+
+    /* ── PROGRESS ── */
+    .progress-wrap {
+      max-width: 680px;
+      margin: 0 auto 1.4rem;
+      padding: 0 0.2rem;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--brown-light);
+      margin-bottom: 0.4rem;
+    }
+
+    .progress-bar-track {
+      height: 4px;
+      background: var(--brown-pale);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(to right, var(--amber-light), var(--amber));
+      border-radius: 2px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+
+    /* ── SUBMIT BUTTON ── */
+    .submit-wrap {
+      max-width: 680px;
+      margin: 0 auto 1.5rem;
+      text-align: center;
+    }
+
+    .btn-submit {
+      background: var(--brown);
+      color: var(--cream);
+      border: none;
+      padding: 0.9rem 2.5rem;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      opacity: 0.4;
+      pointer-events: none;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .btn-submit.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .btn-submit.active:hover {
+      background: var(--amber);
+      color: var(--dark);
+    }
+
+    /* ── RESULT ── */
+    #result-section {
+      display: none;
+      max-width: 680px;
+      margin: 0 auto 2rem;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-card {
+      border-radius: 4px;
+      padding: 2rem 1.5rem;
+    }
+
+    .result-card.concern {
+      background: linear-gradient(135deg, #fff5f4, #fdf0ee);
+      border: 1.5px solid rgba(192,57,43,0.3);
+      box-shadow: 0 4px 24px rgba(192,57,43,0.08);
+    }
+
+    .result-card.ok {
+      background: linear-gradient(135deg, #f4fbf7, #eef6f1);
+      border: 1.5px solid rgba(46,125,82,0.3);
+      box-shadow: 0 4px 24px rgba(46,125,82,0.08);
+    }
+
+    .result-score {
+      text-align: center;
+      margin-bottom: 1.4rem;
+    }
+
+    .score-number {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .concern .score-number { color: var(--red-soft); }
+    .ok .score-number { color: var(--green-soft); }
+
+    .score-label {
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--brown-light);
+      margin-top: 0.3rem;
+    }
+
+    .result-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+    .concern .result-title { color: var(--red-soft); }
+    .ok .result-title { color: var(--green-soft); }
+
+    .result-body p {
+      margin-bottom: 0.85rem;
+      font-size: 0.96rem;
+      color: #2a2018;
+    }
+    .result-body p:last-child { margin-bottom: 0; }
+
+    .result-body strong {
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .btn-restart {
+      display: block;
+      margin: 1.8rem auto 0;
+      background: transparent;
+      border: 1.5px solid var(--brown-light);
+      color: var(--brown);
+      padding: 0.65rem 2rem;
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      max-width: 280px;
+      width: 100%;
+    }
+    .btn-restart:hover { background: var(--brown-pale); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem 1rem 2.5rem;
+      font-size: 0.78rem;
+      color: var(--brown-light);
+      opacity: 0.7;
+    }
+
+    /* ── CONTAINER ── */
+    .container { max-width: 720px; margin: 0 auto; padding: 0 1rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .question-desc { padding-left: 1.2rem; }
+      .answer-row { padding-left: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo-line">A.A.</div>
+    <div class="tagline">Alcohólicos Anónimos</div>
+    <div class="divider"><div class="divider-diamond"></div></div>
+    <p style="font-size:1.05rem; color:var(--brown); font-family:'Playfair Display',Georgia,serif; font-style:italic;">
+      ¿Es A.A. para usted?
+    </p>
+  </header>
+
+  <!-- PRIVACY NOTICE -->
+  <div class="card privacy-card">
+    <div class="privacy-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber)">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      Privacidad y Anonimato
+    </div>
+    <p class="privacy-text">
+      Este cuestionario es una herramienta de autorreflexión personal. No se recopila ningún dato personal, nombre ni dirección de correo electrónico. Sus respuestas son totalmente anónimas y no quedan registradas en ninguna base de datos. Una vez que cierre esta ventana, sus respuestas desaparecerán. Este es un espacio seguro para su propia honestidad.
+    </p>
+  </div>
+
+  <!-- INTRO -->
+  <div class="card intro-card">
+    <p>
+      Sólo usted puede tomar la decisión de probar A.A., si le parece que el programa le puede ayudar.
+    </p>
+    <p>
+      Nosotros los miembros de A.A. llegamos al programa porque reconocimos finalmente que no podíamos controlar nuestra forma de beber.
+    </p>
+    <p>
+      Al principio estábamos poco dispuestos a admitir que nunca podríamos beber sin peligro. Pero los miembros experimentados de A.A. nos explicaron que sufríamos de una enfermedad. (¡Así nos había parecido durante largos años!).
+    </p>
+    <p>
+      Nos enteramos de que mucha gente estaba afligida por los mismos sentimientos de culpabilidad, soledad y desesperación que nosotros teníamos. Descubrimos que teníamos esos sentimientos porque padecíamos de la enfermedad del alcoholismo.
+    </p>
+    <p>
+      Tomamos la decisión de tratar de hacer frente a la realidad de los efectos del alcohol en nuestras vidas.
+    </p>
+    <div class="intro-highlight">
+      Si respondió <strong>SÍ a cuatro o más preguntas</strong>, lo tomamos como indicación de que teníamos un grave problema con la bebida.<br>
+      <span style="font-size:0.9rem; margin-top:0.3rem; display:block;">Pruébelo usted. Recuerde, no es una vergüenza enfrentarse al hecho de que se tiene un problema.</span>
+    </div>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Progreso</span>
+      <span id="progress-text">0 de 12 respondidas</span>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div id="questions-wrap">
+    <div class="card" style="padding:1.2rem 1.5rem 0.4rem;">
+      <p class="questions-title">Responda SÍ o NO a las siguientes 12 preguntas:</p>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-wrap">
+    <button class="btn-submit" id="btn-submit" onclick="showResult()">Ver mis resultados</button>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result-section">
+    <!-- filled by JS -->
+  </div>
+
+  <footer>
+    Alcohólicos Anónimos — Material de dominio público · Este cuestionario no reemplaza la consulta profesional
+  </footer>
+
+</div>
+
+<script>
+  const questions = [
+    {
+      text: "¿Ha tratado alguna vez de dejar de beber durante una semana o más, sin haber podido cumplir el plazo?",
+      desc: "La mayoría de los A.A. hicimos todo tipo de promesas a nosotros mismos y a nuestras familias. No pudimos cumplirlas. Luego llegamos a A.A., y A.A. nos dijo: Trate de no beber hoy. (Si no bebe hoy, hoy no se emborrachará.)"
+    },
+    {
+      text: "¿Le fastidian los consejos de otras personas en cuanto a su forma de beber — le gustaría que dejasen de entrometerse en sus asuntos?",
+      desc: "En A.A. no decimos a nadie lo que tiene que hacer. Hablamos simplemente de nuestras experiencias con la bebida, los líos en que nos metíamos, y cómo logramos dejar de beber. Nos agradaría ayudarle si así lo desea."
+    },
+    {
+      text: "¿Ha cambiado de una clase de bebida a otra con objeto de evitar emborracharse?",
+      desc: "Intentamos multitud de trucos. Nos hacíamos bebidas suaves. Tomábamos solamente cerveza. No tomábamos cócteles. Bebíamos solamente los fines de semana. Todo lo que se pueda imaginar, ya lo hemos probado. Pero si tomábamos algo que contuviera alcohol, generalmente acabábamos por emborracharnos."
+    },
+    {
+      text: "¿Se ha tenido que tomar algún trago al levantarse por la mañana durante el año pasado?",
+      desc: "¿Necesita un trago para ponerse en marcha, o para quitarse los temblores? Esta es una indicación bastante segura de que usted no es un bebedor «social»."
+    },
+    {
+      text: "¿Tiene envidia de las personas que pueden beber sin meterse en líos?",
+      desc: "Casi todos nosotros nos hemos preguntado alguna vez por qué no somos como la mayoría de la gente, que pueden realmente tomarlo o dejarlo."
+    },
+    {
+      text: "¿Ha tenido algún problema relacionado con la bebida durante el año pasado?",
+      desc: "¡Sea sincero! Los médicos dicen que, si se tiene un problema con el alcohol y se sigue bebiendo, el problema va a empeorar, nunca mejorar. Al final, morirá, o acabará en una institución para pasar confinado lo que le quede de vida. La única esperanza está en dejar de beber."
+    },
+    {
+      text: "¿Ha causado su forma de beber dificultades en casa?",
+      desc: "Antes de llegar a A.A., casi todos solíamos decir que lo que nos impulsaba a beber eran nuestros problemas familiares o las personas con quienes vivíamos. No se nos ocurrió nunca que la bebida lo hacía todo cada vez peor, que nunca solucionó problema alguno."
+    },
+    {
+      text: "¿Trata usted de conseguir tragos «extras» en las fiestas, por temor de no tener suficiente?",
+      desc: "La mayoría de nosotros solíamos tomarnos «unos cuantos» tragos antes de ir a una fiesta, si creíamos que no nos iba a bastar la ración. Y si no nos servían con la suficiente rapidez, íbamos a otra parte para conseguir más."
+    },
+    {
+      text: "¿Persiste usted en decir que puede dejar de beber en el momento que quiera, a pesar de que sigue emborrachándose cuando no quiere?",
+      desc: "Muchos de nosotros nos engañábamos diciendo que bebíamos porque queríamos beber. Después de unirnos a A.A., llegamos a saber que una vez que empezábamos a beber, no podíamos parar."
+    },
+    {
+      text: "¿Ha faltado a su trabajo o a la escuela a causa de la bebida?",
+      desc: "Muchos de nosotros ahora reconocemos que a menudo nos ausentábamos «por estar enfermos» cuando en realidad estábamos con resaca o borrachos."
+    },
+    {
+      text: "¿Ha tenido «lagunas mentales»? ¿Ha pasado horas o días bebiendo sin poder acordarse de lo que hizo o qué le pasó?",
+      desc: "Al llegar a A.A., descubrimos que esa era una indicación bastante segura del alcoholismo."
+    },
+    {
+      text: "¿Ha pensado que llevaría una vida mejor si no bebiera?",
+      desc: "Muchos de nosotros empezamos a beber porque la bebida hacía que la vida nos pareciera más agradable, al menos por algún tiempo. Luego nos sentimos atrapados. Estábamos bebiendo para vivir y viviendo para beber. Estábamos hartos de estar hartos y recurrimos a A.A."
+    }
+  ];
+
+  const answers = new Array(12).fill(null);
+
+  function buildQuestions() {
+    const wrap = document.getElementById('questions-wrap');
+    questions.forEach((q, i) => {
+      const item = document.createElement('div');
+      item.className = 'question-item';
+      item.id = `q-${i}`;
+      item.innerHTML = `
+        <div class="question-header">
+          <div class="question-number">${i + 1}</div>
+          <div class="question-text">${q.text}</div>
+        </div>
+        <div class="question-desc">${q.desc}</div>
+        <div class="answer-row">
+          <button class="btn-answer" id="si-${i}" onclick="setAnswer(${i},'si')">Sí</button>
+          <button class="btn-answer" id="no-${i}" onclick="setAnswer(${i},'no')">No</button>
+        </div>
+      `;
+      wrap.appendChild(item);
+    });
+  }
+
+  function setAnswer(index, value) {
+    answers[index] = value;
+    const item = document.getElementById(`q-${index}`);
+    const siBtn = document.getElementById(`si-${index}`);
+    const noBtn = document.getElementById(`no-${index}`);
+
+    // Reset classes
+    siBtn.className = 'btn-answer';
+    noBtn.className = 'btn-answer';
+    item.className = 'question-item';
+
+    if (value === 'si') {
+      siBtn.classList.add('selected-si');
+      item.classList.add('answered-si');
+    } else {
+      noBtn.classList.add('selected-no');
+      item.classList.add('answered-no');
+    }
+
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const answered = answers.filter(a => a !== null).length;
+    const pct = (answered / 12) * 100;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-text').textContent = `${answered} de 12 respondidas`;
+
+    const btn = document.getElementById('btn-submit');
+    if (answered === 12) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  }
+
+  function showResult() {
+    const siCount = answers.filter(a => a === 'si').length;
+    const noCount = answers.filter(a => a === 'no').length;
+    const section = document.getElementById('result-section');
+
+    let html = '';
+
+    if (siCount >= 4) {
+      html = `
+        <div class="result-card concern">
+          <div class="result-score">
+            <div class="score-number">${siCount}</div>
+            <div class="score-label">respuestas SÍ de 12</div>
+          </div>
+          <h2 class="result-title">Es probable que tenga un problema con el alcohol</h2>
+          <div class="result-body">
+            <p>¿Respondió SÍ a cuatro o más preguntas? De ser así, es probable que tenga un problema con el alcohol. ¿Por qué decimos esto? Porque miles de miembros de A.A. lo han dicho durante muchos años. La dura experiencia les ha enseñado la verdad respecto a sí mismos.</p>
+            <p>Pero repetimos que <strong>solamente usted puede decidir</strong> si le parece que A.A. le puede ser útil. Considérelo con mente abierta. Si responde afirmativamente, nos agradaría enseñarle cómo nosotros logramos dejar de beber. No tiene que hacer más que llamarnos.</p>
+            <p>A.A. no promete resolver los problemas de su vida. Pero podemos enseñarle cómo vamos aprendiendo a vivir sin beber <strong>«un día a la vez»</strong>. Nos mantenemos alejados de aquel primer trago. Si no nos tomamos el primer trago, no podremos tomarnos el décimo.</p>
+            <p>Al liberarnos de la bebida, encontramos la vida mucho más fácil de manejar.</p>
+          </div>
+          <button class="btn-restart" onclick="restart()">Responder nuevamente</button>
+        </div>
+      `;
+    } else {
+      html = `
+        <div class="result-card ok">
+          <div class="result-score">
+            <div class="score-number">${siCount}</div>
+            <div class="score-label">respuestas SÍ de 12</div>
+          </div>
+          <h2 class="result-title">Sus respuestas no indican un problema grave en este momento</h2>
+          <div class="result-body">
+            <p>Respondió SÍ a menos de cuatro preguntas. Según la experiencia de los miembros de A.A., esto no sugiere la presencia de un problema serio con el alcohol en este momento.</p>
+            <p>Sin embargo, recuerde que <strong>solamente usted conoce su propia realidad</strong>. Si en algún momento siente que su forma de beber le genera preocupación, a usted o a quienes le rodean, le invitamos a reflexionar nuevamente con honestidad.</p>
+            <p>A.A. es una comunidad abierta. Si alguna vez siente que necesita apoyo o simplemente desea conocer más sobre el programa, no dude en acercarse. No hay compromiso alguno en informarse.</p>
+            <p><em>Recuerde: el autoconocimiento honesto es siempre un acto de valentía.</em></p>
+          </div>
+          <button class="btn-restart" onclick="restart()">Responder nuevamente</button>
+        </div>
+      `;
+    }
+
+    section.innerHTML = html;
+    section.style.display = 'block';
+
+    // Scroll to result
+    setTimeout(() => {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+
+  function restart() {
+    answers.fill(null);
+    // Reset all question items
+    for (let i = 0; i < 12; i++) {
+      document.getElementById(`q-${i}`).className = 'question-item';
+      document.getElementById(`si-${i}`).className = 'btn-answer';
+      document.getElementById(`no-${i}`).className = 'btn-answer';
+    }
+    document.getElementById('result-section').style.display = 'none';
+    document.getElementById('result-section').innerHTML = '';
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  buildQuestions();
+</script>
+</body>
+</html>
